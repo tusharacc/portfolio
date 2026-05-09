@@ -4,5 +4,10 @@ import type { PageServerLoad } from './$types';
 export const prerender = true;
 
 export const load: PageServerLoad = async () => {
-	return await getPortfolioData();
+	try {
+		return await getPortfolioData();
+	} catch (err) {
+		console.error('GitHub API fetch failed at build time:', err);
+		return { timeline: [], projects: [] };
+	}
 };
