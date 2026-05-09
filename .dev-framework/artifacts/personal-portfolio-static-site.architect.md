@@ -96,6 +96,6 @@ Authorization: token $GITHUB_TOKEN   (optional; 60 req/hr unauth is enough for o
 
 ## Open Questions
 
-- [ ] Should forks be excluded from the timeline language grouping? (Recommended: yes — they're not original work)
+- [x] Forks excluded from timeline language grouping — confirmed by user. Not original work.
 - [ ] Does `prerender = true` need to be set explicitly, or does adapter-static handle it? (It does, via `fallback: null` + no dynamic routes)
 - [ ] DNS: confirm tusharsaurabh.com is managed somewhere accessible to add A records pointing to GitHub Pages IPs (185.199.108-111.153)
