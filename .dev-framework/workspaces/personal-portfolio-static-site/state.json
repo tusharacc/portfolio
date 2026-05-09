@@ -3,12 +3,12 @@
   "type": "feature",
   "workflowType": "full",
   "created": "2026-05-09T00:00:00Z",
-  "currentPhase": "po",
+  "currentPhase": "architect",
   "status": "active",
   "branch": "feature/personal-portfolio-static-site",
   "roles": {
-    "po": { "status": "in-progress", "completed": null },
-    "architect": { "status": "pending", "completed": null },
+    "po": { "status": "complete", "completed": "2026-05-09T00:10:00Z" },
+    "architect": { "status": "in-progress", "completed": null },
     "developer": { "status": "pending", "completed": null },
     "reviewer": { "status": "pending", "completed": null },
     "tester": { "status": "pending", "completed": null },
@@ -17,12 +17,15 @@
   },
   "artifacts": {
     "po": "artifacts/personal-portfolio-static-site.po.md",
-    "architect": null,
+    "architect": "artifacts/personal-portfolio-static-site.architect.md",
     "developer": null,
     "reviewer": null,
     "tester": null,
     "executor": null,
     "po-approval": null
   },
-  "timelines": {}
+  "timelines": {
+    "po_complete": "2026-05-09T00:10:00Z",
+    "architect_start": "2026-05-09T00:10:00Z"
+  }
 }
