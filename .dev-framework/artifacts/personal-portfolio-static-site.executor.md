@@ -21,7 +21,7 @@ TC-05, TC-07, TC-12, TC-13 verified by source inspection (component code + built
 | TC-04 | Navigation + anchors | ✅ PASS | `class="fixed top-0 w-full"`, `h-12` (48px), `ts` → `#home`, `tech` → `#tech`, `projects` → `#projects`, dark mode toggle visible |
 | TC-05 | Dark mode toggle | ✅ PASS | `theme.ts` store reads/writes `localStorage.darkMode`; subscribes to add/remove `.dark` class on `document.documentElement`; Moon/Sun icon toggles |
 | TC-06 | Tech timeline renders | ✅ PASS | "01 Tech Evolution" heading; 12 year nodes (2015–2026); alternating `row`/`row-reverse` serpentine; amber dashed `.trace-h` connectors + U-turn divs; hover amber glow via `:hover` |
-| TC-07 | Timeline mobile layout | ❌ FAIL | `@media (max-width: 480px)` changes `.trace-h` from horizontal to vertical but does **not** change flex container to column — rows remain 3 nodes wide (compressed to ~160px each), not a single vertical column. No horizontal scrollbar (flex shrinks correctly), but spec's "single column" is not met. |
+| TC-07 | Timeline mobile layout | ✅ PASS (fixed) | Row container moved from inline `style="flex-direction:..."` to `.row`/`.row-rev` CSS classes; `@media (max-width: 480px)` now overrides both to `flex-direction: column`; `.turn` connectors hidden; `.trace-h` rendered as left-aligned vertical dashed line. Build verified. |
 | TC-08 | Projects section renders | ✅ PASS | "02 Recent Projects" heading; exactly 5 cards (mscds-notes, DevelopmentFrameworkForClaude, form-check, code-assistant, intelligent_terminal); excluded repos absent; no forks; each card shows name, description (if present), language chip, formatted date; `target="_blank"` |
 | TC-09 | Footer links | ✅ PASS | "Tushar Saurabh" on left; GitHub, LinkedIn, Blog links with `target="_blank"` |
 | TC-10 | No runtime API calls | ✅ PASS | All data baked into script init block in `index.html`; fully static; no XHR/fetch to external APIs |
@@ -34,10 +34,8 @@ TC-05, TC-07, TC-12, TC-13 verified by source inspection (component code + built
 
 ## Issues Found
 
-### FAIL — TC-07: Mobile single-column not implemented
-**File**: `src/lib/components/TechTimeline.svelte:162-173`
-**Detail**: The `@media (max-width: 480px)` block converts `.trace-h` to a vertical 1px line but leaves the parent flex container as `row`/`row-reverse`. Result is 3 compressed columns (~160px each) rather than a single-column vertical list. Text does not overflow due to `flex: 1; min-width: 0`, but readability of chips is degraded at narrow widths.
-**Fix**: Add `flex-direction: column !important` to the row container and reset `.trace-h` to a left-aligned vertical connector on mobile.
+### ~~FAIL — TC-07~~ FIXED
+Row div moved from inline `style="flex-direction:..."` to `.row`/`.row-rev` CSS classes so the mobile media query can override them. U-turn connectors hidden via `.turn { display: none }`. BUG-004 closed.
 
 ### PARTIAL — TC-12: No explicit focus rings
 Known UX gap; browser defaults are functional but inconsistent across browsers.
@@ -52,6 +50,4 @@ Tracked. Low priority.
 
 ## Overall Status
 
-**CONDITIONAL PASS** — 12 of 14 tests pass outright. One functional failure (TC-07: mobile layout does not stack to single column). Two cosmetic partials (TC-12: keyboard focus rings; TC-13: light mode chip colours — both tracked as existing low-severity bugs).
-
-Recommendation: advance to PO-Approval. TC-07 fix is a low-effort CSS change (2 lines) that can be addressed as BUG-004 without blocking launch.
+**PASS** — 13 of 14 tests pass outright (TC-07 fixed post-execution). Two cosmetic partials (TC-12: keyboard focus rings; TC-13: light mode chip colours — both tracked as existing low-severity bugs, BUG-002). All critical acceptance criteria met. Ready for PO-Approval.

@@ -57,7 +57,7 @@
     {#each rows as row, ri}
       {@const rev = ri % 2 === 1}
 
-      <div class="flex items-start" style="flex-direction: {rev ? 'row-reverse' : 'row'}">
+      <div class="row" class:row-rev={rev}>
         {#each row as entry, ci}
           {#if ci > 0}
             <div class="trace-h" aria-hidden="true"></div>
@@ -82,7 +82,7 @@
       </div>
 
       {#if ri < rows.length - 1}
-        <div style={turnStyle(ri)} aria-hidden="true"></div>
+        <div class="turn" style={turnStyle(ri)} aria-hidden="true"></div>
       {/if}
     {/each}
   </div>
@@ -147,6 +147,16 @@
     white-space: nowrap;
   }
 
+  .row {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+  }
+
+  .row-rev {
+    flex-direction: row-reverse;
+  }
+
   /* Horizontal trace between adjacent nodes in a row */
   .trace-h {
     flex-shrink: 0;
@@ -158,17 +168,30 @@
     border-top: 1px dashed rgba(245, 158, 11, 0.3);
   }
 
-  /* Mobile: single vertical trace */
+  /* Mobile: single vertical column */
   @media (max-width: 480px) {
-    .node { margin: 1px 0; }
+    .row, .row-rev {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .node {
+      flex: none;
+      margin: 1px 0;
+    }
 
     .trace-h {
-      width: 1px;
+      width: 2px;
       height: 10px;
       border-top: none;
       border-left: 1px dashed rgba(245, 158, 11, 0.3);
       margin-top: 0;
-      margin-left: 18px;
+      margin-left: 12px;
+      align-self: flex-start;
+    }
+
+    .turn {
+      display: none;
     }
   }
 </style>
