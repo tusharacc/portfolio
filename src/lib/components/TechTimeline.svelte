@@ -14,27 +14,41 @@
     rows.push(entries.slice(i, i + COLS));
   }
 
-  const LANG_PALETTE: Record<string, { bg: string; fg: string }> = {
-    Python:      { bg: '#0a1929', fg: '#60a5fa' },
-    JavaScript:  { bg: '#1a1400', fg: '#fbbf24' },
-    TypeScript:  { bg: '#091225', fg: '#93c5fd' },
-    Ruby:        { bg: '#1a0505', fg: '#f87171' },
-    Shell:       { bg: '#011408', fg: '#34d399' },
-    Swift:       { bg: '#1a0800', fg: '#fb923c' },
-    'C#':        { bg: '#100818', fg: '#c084fc' },
-    CSS:         { bg: '#1a0311', fg: '#f472b6' },
-    HTML:        { bg: '#180c00', fg: '#fdba74' },
-    Go:          { bg: '#001a1f', fg: '#22d3ee' },
-    'C++':       { bg: '#0c0e14', fg: '#94a3b8' },
-    Svelte:      { bg: '#1a0600', fg: '#ff7043' },
-    AppleScript: { bg: '#080818', fg: '#a5b4fc' },
-    Jupyter:     { bg: '#140c00', fg: '#f59e0b' },
-    AngularJS:   { bg: '#1a0000', fg: '#fca5a5' },
+  interface ChipColor {
+    dkBg: string; dkFg: string;
+    ltBg: string; ltFg: string;
+  }
+
+  const LANG_PALETTE: Record<string, ChipColor> = {
+    Python:            { dkBg: '#0a1929', dkFg: '#60a5fa', ltBg: '#dbeafe', ltFg: '#1d4ed8' },
+    JavaScript:        { dkBg: '#1a1400', dkFg: '#fbbf24', ltBg: '#fef3c7', ltFg: '#92400e' },
+    TypeScript:        { dkBg: '#091225', dkFg: '#93c5fd', ltBg: '#dbeafe', ltFg: '#1e3a8a' },
+    Ruby:              { dkBg: '#1a0505', dkFg: '#f87171', ltBg: '#fee2e2', ltFg: '#991b1b' },
+    Shell:             { dkBg: '#011408', dkFg: '#34d399', ltBg: '#d1fae5', ltFg: '#065f46' },
+    Swift:             { dkBg: '#1a0800', dkFg: '#fb923c', ltBg: '#ffedd5', ltFg: '#9a3412' },
+    'C#':              { dkBg: '#100818', dkFg: '#c084fc', ltBg: '#ede9fe', ltFg: '#5b21b6' },
+    CSS:               { dkBg: '#1a0311', dkFg: '#f472b6', ltBg: '#fce7f3', ltFg: '#9d174d' },
+    HTML:              { dkBg: '#180c00', dkFg: '#fdba74', ltBg: '#fff7ed', ltFg: '#c2410c' },
+    Go:                { dkBg: '#001a1f', dkFg: '#22d3ee', ltBg: '#cffafe', ltFg: '#155e75' },
+    'C++':             { dkBg: '#0c0e14', dkFg: '#94a3b8', ltBg: '#f1f5f9', ltFg: '#334155' },
+    Rust:              { dkBg: '#1a0c00', dkFg: '#fb923c', ltBg: '#fff7ed', ltFg: '#9a3412' },
+    Java:              { dkBg: '#1a0800', dkFg: '#fca5a5', ltBg: '#fff1f2', ltFg: '#9f1239' },
+    Kotlin:            { dkBg: '#100818', dkFg: '#c084fc', ltBg: '#f5f3ff', ltFg: '#6d28d9' },
+    Dart:              { dkBg: '#001a1f', dkFg: '#22d3ee', ltBg: '#ecfeff', ltFg: '#0e7490' },
+    Assembly:          { dkBg: '#0c0e14', dkFg: '#94a3b8', ltBg: '#f8fafc', ltFg: '#475569' },
+    Svelte:            { dkBg: '#1a0600', dkFg: '#ff7043', ltBg: '#fff0ed', ltFg: '#c2410c' },
+    AppleScript:       { dkBg: '#080818', dkFg: '#a5b4fc', ltBg: '#eef2ff', ltFg: '#4338ca' },
+    'Jupyter Notebook':{ dkBg: '#140c00', dkFg: '#f59e0b', ltBg: '#fef3c7', ltFg: '#92400e' },
+    AngularJS:         { dkBg: '#1a0000', dkFg: '#fca5a5', ltBg: '#fee2e2', ltFg: '#991b1b' },
+    Claude:            { dkBg: '#1a1100', dkFg: '#f59e0b', ltBg: '#fefce8', ltFg: '#854d0e' },
+    Copilot:           { dkBg: '#00101a', dkFg: '#38bdf8', ltBg: '#e0f2fe', ltFg: '#0369a1' },
   };
 
+  const FALLBACK: ChipColor = { dkBg: '#0c0e14', dkFg: '#94a3b8', ltBg: '#f1f5f9', ltFg: '#334155' };
+
   function chipStyle(lang: string): string {
-    const p = LANG_PALETTE[lang] ?? { bg: '#0c0e14', fg: '#94a3b8' };
-    return `background:${p.bg};color:${p.fg};border-color:${p.fg}40`;
+    const p = LANG_PALETTE[lang] ?? FALLBACK;
+    return `--dk-bg:${p.dkBg};--dk-fg:${p.dkFg};--dk-border:${p.dkFg}40;--lt-bg:${p.ltBg};--lt-fg:${p.ltFg};--lt-border:${p.ltFg}50`;
   }
 
   function turnStyle(ri: number): string {
@@ -89,6 +103,16 @@
 </section>
 
 <style>
+  .row {
+    display: flex;
+    align-items: stretch;
+    flex-direction: row;
+  }
+
+  .row-rev {
+    flex-direction: row-reverse;
+  }
+
   .node {
     flex: 1;
     min-width: 0;
@@ -145,25 +169,23 @@
     font-family: 'JetBrains Mono', monospace;
     letter-spacing: 0.01em;
     white-space: nowrap;
+    background: var(--dk-bg);
+    color: var(--dk-fg);
+    border-color: var(--dk-border);
   }
 
-  .row {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: row;
+  :global(html:not(.dark)) .chip {
+    background: var(--lt-bg);
+    color: var(--lt-fg);
+    border-color: var(--lt-border);
   }
 
-  .row-rev {
-    flex-direction: row-reverse;
-  }
-
-  /* Horizontal trace between adjacent nodes in a row */
+  /* Horizontal trace between adjacent nodes */
   .trace-h {
     flex-shrink: 0;
-    width: 10px;
-    /* top padding (10px) + half of yr line-height (~8px) = 18px */
-    margin-top: 18px;
     align-self: flex-start;
+    width: 10px;
+    margin-top: 18px;
     height: 1px;
     border-top: 1px dashed rgba(245, 158, 11, 0.3);
   }

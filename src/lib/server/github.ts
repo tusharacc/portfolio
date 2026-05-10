@@ -1,6 +1,10 @@
 const GITHUB_USER = 'tusharacc';
 const EXCLUDED_REPOS = new Set(['portfolio', 'tusharacc.github.io', 'what-i-learnt']);
 
+const MANUAL_SKILLS: Record<number, string[]> = {
+	2025: ['Claude', 'Copilot'],
+};
+
 export interface YearEntry {
 	year: number;
 	langs: string[];
@@ -60,6 +64,12 @@ export async function getPortfolioData(): Promise<{ timeline: YearEntry[]; proje
 		const year = new Date(repo.created_at).getFullYear();
 		if (!byYear.has(year)) byYear.set(year, new Set());
 		byYear.get(year)!.add(repo.language);
+	}
+
+	for (const [yearStr, skills] of Object.entries(MANUAL_SKILLS)) {
+		const year = parseInt(yearStr);
+		if (!byYear.has(year)) byYear.set(year, new Set());
+		for (const skill of skills) byYear.get(year)!.add(skill);
 	}
 
 	const timeline: YearEntry[] = Array.from(byYear.entries())
