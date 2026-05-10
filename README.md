@@ -1,38 +1,43 @@
-# sv
+# tusharsaurabh.com — Portfolio Source
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Personal portfolio site for [Tushar Saurabh](https://tusharsaurabh.com). Built with SvelteKit 5 + Tailwind CSS v4, fully static, hosted on GitHub Pages.
 
-## Creating a project
+## Stack
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **Framework**: SvelteKit 5 (Svelte 5 runes, `adapter-static`)
+- **Styling**: Tailwind CSS v4 (`@tailwindcss/postcss`)
+- **Data**: GitHub API fetched at build time — zero runtime API calls
+- **Deploy**: `gh-pages` → [`tusharacc/tusharacc.github.io`](https://github.com/tusharacc/tusharacc.github.io)
+- **Domain**: `tusharsaurabh.com`
 
-```sh
-# create a new project in the current directory
-npx sv create
+## Sections
 
-# create a new project in my-app
-npx sv create my-app
-```
+- **Hero** — name, role, links to GitHub / LinkedIn / Blog
+- **Tech Evolution** — serpentine timeline of languages used per year (derived from GitHub repo history)
+- **Recent Projects** — top 5 repos by last updated, forks excluded
 
-## Developing
+## Dev
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
+```bash
+npm install
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
+## Build & Preview
 
-To create a production version of your app:
-
-```sh
+```bash
 npm run build
+npm run preview
 ```
 
-You can preview the production build with `npm run preview`.
+## Deploy
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+```bash
+npm run deploy
+```
+
+Pushes `build/` to `tusharacc/tusharacc.github.io` main branch. GitHub Pages serves it at `tusharsaurabh.com` via the `CNAME` file.
+
+## Environment
+
+`GITHUB_TOKEN` — optional. Set to avoid GitHub API rate limits during build. Build falls back gracefully if the API is unavailable.
