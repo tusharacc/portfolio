@@ -192,15 +192,15 @@
     align-self: flex-start;
     width: 10px;
     margin-top: 18px;
-    height: 1px;
-    border-top: 1px dashed rgba(245, 158, 11, 0.3);
+    height: 2px;
+    border-top: 2.5px dashed rgba(245, 158, 11, 0.75);
   }
 
   /* Vertical connector between rows, aligned to the same column as the
      card it links so the path visually continues rather than floating. */
   .turn-row {
     display: flex;
-    height: 26px;
+    height: 32px;
   }
 
   .turn-slot {
@@ -214,17 +214,19 @@
     position: relative;
     width: 0;
     height: 100%;
-    border-left: 2px dashed rgba(245, 158, 11, 0.5);
+    border-left: 3px dashed rgba(245, 158, 11, 0.9);
   }
 
   .turn-arrow {
     position: absolute;
-    bottom: -2px;
+    bottom: -6px;
     left: 50%;
     transform: translateX(-50%);
-    color: rgba(245, 158, 11, 0.75);
-    font-size: 12px;
+    color: #f59e0b;
+    font-size: 18px;
+    font-weight: 700;
     line-height: 1;
+    filter: drop-shadow(0 0 3px rgba(245, 158, 11, 0.5));
   }
 
   /* Mobile: single vertical column */
@@ -243,7 +245,7 @@
       width: 2px;
       height: 10px;
       border-top: none;
-      border-left: 1px dashed rgba(245, 158, 11, 0.3);
+      border-left: 2.5px dashed rgba(245, 158, 11, 0.75);
       margin-top: 0;
       margin-left: 12px;
       align-self: flex-start;
