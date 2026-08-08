@@ -51,12 +51,8 @@
     return `--dk-bg:${p.dkBg};--dk-fg:${p.dkFg};--dk-border:${p.dkFg}40;--lt-bg:${p.ltBg};--lt-fg:${p.ltFg};--lt-border:${p.ltFg}50`;
   }
 
-  function turnStyle(ri: number): string {
-    const onRight = ri % 2 === 0;
-    const base = 'height:24px;width:calc(33.333% + 8px);border-bottom:1px dashed rgba(245,158,11,0.3);';
-    return onRight
-      ? base + 'margin-left:auto;border-right:1px dashed rgba(245,158,11,0.3);border-bottom-right-radius:10px;'
-      : base + 'margin-right:auto;border-left:1px dashed rgba(245,158,11,0.3);border-bottom-left-radius:10px;';
+  function turnOnRight(ri: number): boolean {
+    return ri % 2 === 0;
   }
 </script>
 
@@ -96,7 +92,17 @@
       </div>
 
       {#if ri < rows.length - 1}
-        <div class="turn" style={turnStyle(ri)} aria-hidden="true"></div>
+        <div class="turn-row" aria-hidden="true">
+          {#each row as _, ci}
+            <div class="turn-slot">
+              {#if (turnOnRight(ri) && ci === COLS - 1) || (!turnOnRight(ri) && ci === 0)}
+                <div class="turn-line">
+                  <span class="turn-arrow">▾</span>
+                </div>
+              {/if}
+            </div>
+          {/each}
+        </div>
       {/if}
     {/each}
   </div>
@@ -190,6 +196,37 @@
     border-top: 1px dashed rgba(245, 158, 11, 0.3);
   }
 
+  /* Vertical connector between rows, aligned to the same column as the
+     card it links so the path visually continues rather than floating. */
+  .turn-row {
+    display: flex;
+    height: 26px;
+  }
+
+  .turn-slot {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .turn-line {
+    position: relative;
+    width: 0;
+    height: 100%;
+    border-left: 2px dashed rgba(245, 158, 11, 0.5);
+  }
+
+  .turn-arrow {
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(245, 158, 11, 0.75);
+    font-size: 12px;
+    line-height: 1;
+  }
+
   /* Mobile: single vertical column */
   @media (max-width: 480px) {
     .row, .row-rev {
@@ -212,7 +249,7 @@
       align-self: flex-start;
     }
 
-    .turn {
+    .turn-row {
       display: none;
     }
   }

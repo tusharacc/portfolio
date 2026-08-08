@@ -14,13 +14,16 @@
 			class:translate-y-4={!mounted}
 		>
 			<p class="font-mono text-xs tracking-[0.3em] uppercase text-slate-500 dark:text-slate-400">
-				Site Reliability Engineer
+				Senior Software Engineer
 			</p>
 			<h1 class="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white tracking-tight">
 				Tushar Saurabh
 			</h1>
 			<p class="text-lg text-slate-500 dark:text-slate-400 font-mono">
-				Chubb · DevOps · Cloud · Automation
+				Automation · Observability · Agentic AI
+			</p>
+			<p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed max-w-xl pt-1">
+				I build software that automates repetitive work and improves engineering effectiveness — currently exploring agentic AI to turn telemetry and logs into actionable engineering insight.
 			</p>
 
 			<div class="flex items-center gap-5 pt-4">

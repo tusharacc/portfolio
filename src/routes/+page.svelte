@@ -9,10 +9,10 @@
 </script>
 
 <svelte:head>
-	<title>Tushar Saurabh — SRE</title>
-	<meta name="description" content="Site Reliability Engineer specialising in DevOps, Cloud Infrastructure, and System Automation." />
-	<meta property="og:title" content="Tushar Saurabh — SRE" />
-	<meta property="og:description" content="Site Reliability Engineer at Chubb. DevOps · Cloud · Automation." />
+	<title>Tushar Saurabh — Senior Software Engineer</title>
+	<meta name="description" content="Senior Software Engineer specialising in automation, observability, and agentic AI." />
+	<meta property="og:title" content="Tushar Saurabh — Senior Software Engineer" />
+	<meta property="og:description" content="Senior Software Engineer at Chubb. Automation · Observability · Agentic AI." />
 	<meta name="twitter:card" content="summary" />
 </svelte:head>
 
