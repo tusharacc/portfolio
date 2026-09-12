@@ -1,30 +1,27 @@
 # Dev Framework Checkpoint
-**Date**: 2026-08-08 12:37
+**Date**: 2026-09-12 15:20
 **Workspace**: personal-portfolio-static-site
 **Phase**: complete
 **Branch**: main
 **Workflow**: full
 
 ## Done this session
-- Converted new HTML resume to PDF (headless Chrome print-to-pdf), fixed a missing `@page` margin bug that cut off text on page 2
-- Replaced `public/resume_tushar_saurabh.pdf` with the new resume and deployed
-- Fixed tusharsaurabh.com HTTPS: GitHub Pages had never issued a cert for the custom domain (Cloudflare was DNS-only, not proxying); re-triggered cert provisioning via `gh api` and enabled Enforce HTTPS — verified working
-- Compared portfolio site content against the new resume's story — found the site's Hero/meta said "Site Reliability Engineer / DevOps · Cloud · Automation" while the resume leads with "Senior Software Engineer / Automation · Observability · Agentic AI"
-- Updated Hero.svelte, +page.svelte meta tags, app.html, and +layout.svelte to align with the resume's positioning (removed all stale "Site Reliability Engineer" references) — light-touch scope, chosen over adding full Experience/Education/Systems-Built sections
-- Fixed the Tech Evolution "snake" timeline connector: old CSS used a wide box-border-radius hack that didn't align with the card columns and was nearly invisible; rewrote it as a flex-based vertical dashed connector + arrow that lines up exactly under the correct column
-- Bumped the connector's visual weight (thicker dashed lines, larger glowing arrowhead) after user feedback that it was still too subtle
-- All changes committed to `main` and deployed live via `npm run deploy` (gh-pages → tusharacc.github.io); last deploy confirmed `Published`, exit 0
+- Generated a new resume PDF (justified body text) from `Tushar_Saurabh_Canonical_Engineering_Resume.md` via headless-Chrome print-to-pdf; verified all 3 pages render cleanly with no cut-off text
+- Deleted stale role-specific resume files (Atlassian, Egnyte .md/.pdf, MongoDB) that were sitting untracked at repo root
+- Replaced `static/resume_tushar_saurabh.pdf` with the new PDF and committed everything to `main` (commit `945211f`)
+- Attempted `npm run deploy` (gh-pages) — it hung indefinitely at the `vite build` step
 
 ## Where things stand
-Site is live at https://tusharsaurabh.com with a valid GitHub-issued HTTPS cert and Hero/meta copy now matching the resume's positioning. Tech Evolution timeline connector is redesigned and more prominent. CDN cache (10 min TTL) was still mid-propagation as of last check this session — confirm it fully rolled over next session.
+The resume update is committed on `main` but **not yet deployed**. Diagnosed the deploy hang: it is not a code/config issue — `du -sh node_modules` itself took 2+ minutes to return, and `bird`/`fileproviderd` (macOS iCloud Drive sync) showed heavy CPU with an active `CKAccountInfoCacheReset`. This repo lives under `~/Documents`, which is iCloud-synced, and the sync daemon was causing severe file-I/O stalls system-wide, which is what blocked `vite build`. Killed the hung processes; did not force a retry.
 
 ## Pending decisions
-- [ ] Confirm live site (light + dark mode) shows the bolder timeline connector after CDN cache clears
-- [ ] Verify https://blogs.tusharsaurabh.com is fully live with HTTPS (carried over, not touched this session)
-- [ ] BUG-001: Extract shared LANG_PALETTE between TechTimeline and Projects (carried over)
-- [ ] BUG-002: Light mode chip backgrounds still slightly inconsistent, low priority (carried over)
-- [ ] BUG-003: Remove unused @sveltejs/adapter-auto from devDependencies (carried over)
-- [ ] Not yet decided: whether to eventually add full Experience/Education/Systems-Built sections to the site (declined this session in favor of light-touch)
+- [ ] Retry `npm run deploy` once iCloud Drive sync backlog clears (check System Settings → Apple ID → iCloud Drive, or just wait for `bird`/`fileproviderd` CPU to settle) — this is the immediate next step
+- [ ] Consider moving this repo out of `~/Documents` (or excluding it from iCloud sync) long-term to avoid recurring build stalls — not decided, just observed as a risk
+- [ ] Verify live site shows the new resume PDF after successful deploy
+- [ ] Verify https://blogs.tusharsaurabh.com HTTPS status (carried over from 2026-08-08, still not checked)
+- [ ] BUG-001: extract shared LANG_PALETTE between TechTimeline and Projects (carried over)
+- [ ] BUG-002: light mode chip background inconsistency, low priority (carried over)
+- [ ] BUG-003: remove unused `@sveltejs/adapter-auto` from devDependencies (carried over)
 
 ## Next action
-Spot-check tusharsaurabh.com in a browser to confirm the CDN has served the latest deploy with the bolder connector. Then optionally clean up BUG-001/002/003 as minor cleanup, or revisit blogs.tusharsaurabh.com HTTPS status.
+Check iCloud Drive sync status is idle, then re-run `npm run deploy` to publish the resume update live to tusharsaurabh.com. Confirm the new resume PDF loads correctly once published.
